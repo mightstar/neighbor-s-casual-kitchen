@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { tableIsBooked, type TimeRange } from "@/lib/reservations";
+import { listOpenTables } from "@/lib/availability";
 import { floorTables } from "@/lib/tables";
 
 export async function GET(request: Request) {
@@ -14,17 +13,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    const bookings = await prisma.reservation.findMany({
-      where: { date, status: "confirmed" },
-      select: { tableId: true, date: true, start: true, durationMinutes: true, status: true },
+    const result = await listOpenTables({ date, start, durationMinutes, partySize: 1 });
+    if (!("tables" in result)) {
+      return NextResponse.json({ bookedTableIds: floorTables.map((table) => table.id) });
+    }
+    const open = new Set(result.tables.map((table) => table.id));
+    return NextResponse.json({
+      bookedTableIds: floorTables.filter((table) => !open.has(table.id)).map((table) => table.id),
     });
-
-    const requested: TimeRange = { date, start, durationMinutes };
-    const bookedTableIds = floorTables
-      .filter((table) => tableIsBooked(table.id, requested, bookings))
-      .map((table) => table.id);
-
-    return NextResponse.json({ bookedTableIds });
   } catch {
     return NextResponse.json({ bookedTableIds: [] });
   }

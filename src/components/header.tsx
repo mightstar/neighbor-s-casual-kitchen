@@ -14,6 +14,10 @@ const links = [
   { href: "/about", label: "About" },
 ];
 
+function openChat() {
+  window.dispatchEvent(new Event("nck-open-chat"));
+}
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -40,6 +44,13 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={openChat}
+            className="hidden text-sm text-ink/80 hover:text-ink sm:inline"
+          >
+            Ask
+          </button>
           <Link
             href={user ? "/account" : "/login"}
             className="hidden text-sm text-ink/80 hover:text-ink sm:inline"
@@ -81,6 +92,15 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openChat();
+              }}
+            >
+              Ask the host
+            </button>
             <Link href={user ? "/account" : "/login"} onClick={() => setOpen(false)}>
               {user ? "Account" : "Sign in"}
             </Link>

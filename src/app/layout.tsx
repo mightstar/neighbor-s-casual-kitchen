@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree, Fraunces } from "next/font/google";
+import { ChatWidget } from "@/components/chat-widget";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
@@ -30,7 +31,11 @@ export const metadata: Metadata = {
     locale: "en_US",
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/brand-mark.png", type: "image/png" },
+    ],
+    apple: "/brand-mark.png",
   },
 };
 
@@ -42,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <ChatWidget />
         </Providers>
       </body>
     </html>

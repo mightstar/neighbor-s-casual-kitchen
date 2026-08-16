@@ -420,3 +420,15 @@ export function getFeaturedItems() {
 export function getItemsByCategory(category: MenuCategory) {
   return menuItems.filter((item) => item.category === category);
 }
+
+export function searchMenu(query: string) {
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return getFeaturedItems().slice(0, 6);
+
+  return menuItems
+    .filter((item) => {
+      const haystack = `${item.name} ${item.description} ${item.category}`.toLowerCase();
+      return terms.every((term) => haystack.includes(term));
+    })
+    .slice(0, 6);
+}

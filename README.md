@@ -25,6 +25,8 @@ npm run dev
 
 Use Neon's pooled `DATABASE_URL` for the app and the unpooled `DATABASE_URL_UNPOOLED` for Prisma CLI (`db push`, seed). Drop `channel_binding=require` — Prisma does not handle it well. Restart `npm run dev` after changing `.env`.
 
+The host chatbot needs `OPENAI_API_KEY`. It answers hours, address, and menu questions, lists open tables, and can book one when you are signed in.
+
 Demo account after seed:
 
 - Email: `guest@neighbors.kitchen`

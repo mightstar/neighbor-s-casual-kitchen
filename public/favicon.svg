@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="32" fill="#2A4538"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#FBF6EE">N</text>
+  <defs>
+    <linearGradient id="rim" x1="8" y1="6" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E8C4A0"/>
+      <stop offset="0.45" stop-color="#C45C32"/>
+      <stop offset="1" stop-color="#7A2E16"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="32" fill="#1C3128"/>
+  <circle cx="32" cy="32" r="29" fill="url(#rim)"/>
+  <circle cx="32" cy="32" r="24.5" fill="#1C3128"/>
+  <circle cx="32" cy="32" r="22.8" fill="none" stroke="#E8C4A0" stroke-width="1.1" opacity="0.55"/>
+  <path d="M20.5 25.5 L32 16.2 L43.5 25.5" fill="none" stroke="#E8C4A0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22.6 45.2 V23.8 h4.6 L37.2 38.6 V23.8 h4.2 V45.2 h-4.6 L26.8 30.4 V45.2 Z" fill="#FBF6EE"/>
 </svg>

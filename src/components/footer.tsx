@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/brand-mark";
 import { restaurant } from "@/lib/restaurant";
 
 export function Footer() {
@@ -6,8 +7,13 @@ export function Footer() {
     <footer className="mt-auto border-t border-line bg-forest-deep text-cream">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
         <div className="md:col-span-2">
-          <p className="display text-3xl">Neighbor&apos;s</p>
-          <p className="mt-1 text-xs uppercase tracking-[0.24em] text-sand">Casual Kitchen</p>
+          <div className="flex items-center gap-3">
+            <BrandMark size={48} className="ring-1 ring-cream/20" />
+            <div>
+              <p className="display text-3xl leading-none">Neighbor&apos;s</p>
+              <p className="mt-1 text-xs uppercase tracking-[0.24em] text-sand">Casual Kitchen</p>
+            </div>
+          </div>
           <p className="mt-4 max-w-md text-sm leading-6 text-cream/80">{restaurant.tagline}</p>
           <p className="mt-4 text-sm text-cream/70">
             {restaurant.address.street}

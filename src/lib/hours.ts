@@ -52,3 +52,25 @@ export function todayISO(now = new Date()) {
     day: "2-digit",
   }).format(now);
 }
+
+export function chicagoClock(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const hour = parts.find((part) => part.type === "hour")?.value ?? "00";
+  const minute = parts.find((part) => part.type === "minute")?.value ?? "00";
+  return `${hour}:${minute}`;
+}
+
+export function isOpenNow(now = new Date()) {
+  const date = todayISO(now);
+  const time = chicagoClock(now);
+  const hours = getHoursForDate(date);
+  if (!hours) return { open: false, date, time };
+  const minutes = timeToMinutes(time);
+  const open = minutes >= timeToMinutes(hours.open) && minutes < timeToMinutes(hours.close);
+  return { open, date, time, hours };
+}
