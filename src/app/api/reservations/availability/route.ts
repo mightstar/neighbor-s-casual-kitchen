@@ -13,15 +13,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "date and start are required." }, { status: 400 });
   }
 
-  const bookings = await prisma.reservation.findMany({
-    where: { date, status: "confirmed" },
-    select: { tableId: true, date: true, start: true, durationMinutes: true, status: true },
-  });
+  try {
+    const bookings = await prisma.reservation.findMany({
+      where: { date, status: "confirmed" },
+      select: { tableId: true, date: true, start: true, durationMinutes: true, status: true },
+    });
 
-  const requested: TimeRange = { date, start, durationMinutes };
-  const bookedTableIds = floorTables
-    .filter((table) => tableIsBooked(table.id, requested, bookings))
-    .map((table) => table.id);
+    const requested: TimeRange = { date, start, durationMinutes };
+    const bookedTableIds = floorTables
+      .filter((table) => tableIsBooked(table.id, requested, bookings))
+      .map((table) => table.id);
 
-  return NextResponse.json({ bookedTableIds });
+    return NextResponse.json({ bookedTableIds });
+  } catch {
+    return NextResponse.json({ bookedTableIds: [] });
+  }
 }

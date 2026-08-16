@@ -82,7 +82,7 @@ export const menuItems: MenuItem[] = [
       "The brunch signature. A potato pancake instead of an English muffin, pulled pork, poached eggs, and jalapeño-infused hollandaise.",
     priceCents: 1100,
     category: "brunch",
-    image: img("photo-1608039829572-5712dec2f915"),
+    image: img("photo-1598515214211-89d3c73ae83b"),
     featured: true,
     source: "advocate",
   },
@@ -94,7 +94,7 @@ export const menuItems: MenuItem[] = [
       "Crispy fried rib-eye with eggs — one of the three plates the staff named first when asked what to order at brunch.",
     priceCents: 1295,
     category: "brunch",
-    image: img("photo-1525351484163-75202dc8d3b5"),
+    image: img("photo-1546833999-b9f581a1996d"),
     featured: true,
     source: "advocate",
   },
@@ -117,7 +117,7 @@ export const menuItems: MenuItem[] = [
     description: "Poached eggs, wilted spinach, and hollandaise on toasted muffin.",
     priceCents: 1095,
     category: "brunch",
-    image: img("photo-1525351484163-75202dc8d3b5", "&sat=-10"),
+    image: img("photo-1533089860892-a7c6f0a88666"),
     source: "opentable",
   },
   {
@@ -158,7 +158,7 @@ export const menuItems: MenuItem[] = [
     description: "A Dallas brunch staple, served Saturday and Sunday mornings.",
     priceCents: 995,
     category: "brunch",
-    image: img("photo-1551504734-5ee1c36e63c5"),
+    image: img("photo-1552332386-f8dd00dc2f85"),
     source: "opentable",
   },
   {
@@ -212,7 +212,7 @@ export const menuItems: MenuItem[] = [
     description: "Homemade soup, the way the cafe listed it — ask the floor for today's pot.",
     priceCents: 595,
     category: "soups-salads",
-    image: img("photo-1547592160-406d68588441"),
+    image: img("photo-1547592180-85f173990554"),
     source: "listing",
   },
   {
@@ -309,7 +309,7 @@ export const menuItems: MenuItem[] = [
     description: "Tuna sandwich from the OpenTable menu, same price as the chicken.",
     priceCents: 895,
     category: "burgers-sands",
-    image: img("photo-1481070414801-51fd732d1943"),
+    image: img("photo-1528735602780-2552fd46c7af"),
     source: "opentable",
   },
   {
@@ -384,7 +384,7 @@ export const menuItems: MenuItem[] = [
     description: "House Bloody Mary, $3.95 at weekend brunch.",
     priceCents: 395,
     category: "drinks",
-    image: img("photo-1541546006121-5c3bc5e8c7b0"),
+    image: img("photo-1551024709-8f23befc6f87"),
     source: "advocate",
   },
   {

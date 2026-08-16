@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
 import { isWithinHours, todayISO } from "@/lib/hours";
+import { databaseErrorMessage } from "@/lib/http";
 import { prisma } from "@/lib/prisma";
 import { canSeat, tableIsBooked } from "@/lib/reservations";
 import { getTable } from "@/lib/tables";
@@ -12,11 +13,15 @@ export async function GET() {
     return NextResponse.json({ error: "Sign in to view reservations." }, { status: 401 });
   }
 
-  const reservations = await prisma.reservation.findMany({
-    where: { userId: user.id },
-    orderBy: [{ date: "asc" }, { start: "asc" }],
-  });
-  return NextResponse.json({ reservations });
+  try {
+    const reservations = await prisma.reservation.findMany({
+      where: { userId: user.id },
+      orderBy: [{ date: "asc" }, { start: "asc" }],
+    });
+    return NextResponse.json({ reservations });
+  } catch (error) {
+    return NextResponse.json({ error: databaseErrorMessage(error) }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -73,33 +78,35 @@ export async function POST(request: Request) {
     );
   }
 
-  const existing = await prisma.reservation.findMany({
-    where: { tableId: table.id, date: payload.date, status: "confirmed" },
-  });
+  try {
+    const existing = await prisma.reservation.findMany({
+      where: { tableId: table.id, date: payload.date, status: "confirmed" },
+    });
 
-  if (
-    tableIsBooked(table.id, payload, existing)
-  ) {
-    return NextResponse.json(
-      { error: "That table is already booked for this time." },
-      { status: 409 },
-    );
+    if (tableIsBooked(table.id, payload, existing)) {
+      return NextResponse.json(
+        { error: "That table is already booked for this time." },
+        { status: 409 },
+      );
+    }
+
+    const reservation = await prisma.reservation.create({
+      data: {
+        userId: user.id,
+        tableId: table.id,
+        date: payload.date,
+        start: payload.start,
+        durationMinutes: payload.durationMinutes,
+        partySize: payload.partySize,
+        name: payload.name,
+        phone: payload.phone,
+        notes: body.notes?.trim() ?? "",
+        status: "confirmed",
+      },
+    });
+
+    return NextResponse.json({ reservation }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: databaseErrorMessage(error) }, { status: 500 });
   }
-
-  const reservation = await prisma.reservation.create({
-    data: {
-      userId: user.id,
-      tableId: table.id,
-      date: payload.date,
-      start: payload.start,
-      durationMinutes: payload.durationMinutes,
-      partySize: payload.partySize,
-      name: payload.name,
-      phone: payload.phone,
-      notes: body.notes?.trim() ?? "",
-      status: "confirmed",
-    },
-  });
-
-  return NextResponse.json({ reservation }, { status: 201 });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+import { databaseErrorMessage } from "@/lib/http";
 import { getMenuItem } from "@/lib/menu";
 import { cartTotals } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
@@ -10,11 +11,15 @@ export async function GET() {
     return NextResponse.json({ error: "Sign in to view orders." }, { status: 401 });
   }
 
-  const orders = await prisma.order.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-  });
-  return NextResponse.json({ orders });
+  try {
+    const orders = await prisma.order.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json({ orders });
+  } catch (error) {
+    return NextResponse.json({ error: databaseErrorMessage(error) }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -49,17 +54,21 @@ export async function POST(request: Request) {
   }
 
   const totals = cartTotals(items);
-  const order = await prisma.order.create({
-    data: {
-      userId: user.id,
-      items,
-      subtotalCents: totals.subtotalCents,
-      taxCents: totals.taxCents,
-      totalCents: totals.totalCents,
-      status: "placed",
-      pickupNote: "Pay at pickup · 9661 Audelia Road, Suite 105",
-    },
-  });
+  try {
+    const order = await prisma.order.create({
+      data: {
+        userId: user.id,
+        items,
+        subtotalCents: totals.subtotalCents,
+        taxCents: totals.taxCents,
+        totalCents: totals.totalCents,
+        status: "placed",
+        pickupNote: "Pay at pickup · 9661 Audelia Road, Suite 105",
+      },
+    });
 
-  return NextResponse.json({ order }, { status: 201 });
+    return NextResponse.json({ order }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: databaseErrorMessage(error) }, { status: 500 });
+  }
 }

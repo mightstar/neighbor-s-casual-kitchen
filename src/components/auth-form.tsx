@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { readJson } from "@/lib/http";
 import { setUser } from "@/store/authSlice";
 import { useAppDispatch } from "@/store/hooks";
 
@@ -30,10 +31,10 @@ export function AuthForm({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
     });
-    const data = (await res.json()) as {
+    const data = await readJson<{
       error?: string;
       user?: { id: string; name: string; email: string };
-    };
+    }>(res);
     setBusy(false);
     if (!res.ok || !data.user) {
       setError(data.error ?? "Could not complete that.");

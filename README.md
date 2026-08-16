@@ -23,7 +23,7 @@ npx prisma db seed
 npm run dev
 ```
 
-`DATABASE_URL` can be a [Neon](https://neon.tech) pooled connection string or the local Postgres from Compose.
+Use Neon's pooled `DATABASE_URL` for the app and the unpooled `DATABASE_URL_UNPOOLED` for Prisma CLI (`db push`, seed). Drop `channel_binding=require` — Prisma does not handle it well. Restart `npm run dev` after changing `.env`.
 
 Demo account after seed:
 

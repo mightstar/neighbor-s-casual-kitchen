@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { readJson } from "@/lib/http";
 import { formatCents } from "@/lib/money";
 import { clearCart, removeItem, selectCartTotals, setQuantity } from "@/store/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -31,7 +32,7 @@ export function CartView() {
         items: lines.map((line) => ({ id: line.id, quantity: line.quantity })),
       }),
     });
-    const data = (await res.json()) as { error?: string; order?: { id: string } };
+    const data = await readJson<{ error?: string; order?: { id: string } }>(res);
     setBusy(false);
     if (!res.ok) {
       setError(data.error ?? "Could not place the order.");

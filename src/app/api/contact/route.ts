@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { databaseErrorMessage } from "@/lib/http";
 import { prisma } from "@/lib/prisma";
 import { isValidEmail } from "@/lib/validators";
 
@@ -24,9 +25,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Please write a short message." }, { status: 400 });
   }
 
-  await prisma.message.create({
-    data: { name, email, phone, body: message },
-  });
-
-  return NextResponse.json({ ok: true });
+  try {
+    await prisma.message.create({
+      data: { name, email, phone, body: message },
+    });
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: databaseErrorMessage(error) }, { status: 500 });
+  }
 }
