@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #f3eadc;
+  --paper: #fbf6ee;
+  --ink: #1b1712;
+  --muted: #5c5348;
+  --forest: #2a4538;
+  --forest-deep: #1c3128;
+  --copper: #c45c32;
+  --copper-deep: #9d4320;
+  --sage: #8b9a7a;
+  --sand: #e6d8c4;
+  --line: #d8cbb6;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-copper: var(--copper);
+  --color-copper-deep: var(--copper-deep);
+  --color-sage: var(--sage);
+  --color-sand: var(--sand);
+  --color-line: var(--line);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-figtree);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-figtree), sans-serif;
+}
+
+::selection {
+  background: #e8c4b0;
+  color: var(--ink);
+}
+
+.display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+.hairline {
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  height: 1px;
+}
+
+.grain {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(196, 92, 50, 0.06), transparent 36%),
+    radial-gradient(circle at 80% 0%, rgba(42, 69, 56, 0.08), transparent 32%);
+}

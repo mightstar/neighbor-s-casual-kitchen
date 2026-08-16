@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  reservations Reservation[]
+  orders       Order[]
+}
+
+model Reservation {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tableId         String
+  date            String
+  start           String
+  durationMinutes Int
+  partySize       Int
+  name            String
+  phone           String
+  notes           String   @default("")
+  status          String   @default("confirmed")
+  createdAt       DateTime @default(now())
+
+  @@index([tableId, date])
+  @@index([userId])
+}
+
+model Order {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items        Json
+  subtotalCents Int
+  taxCents     Int
+  totalCents   Int
+  status       String   @default("placed")
+  pickupNote   String   @default("Pay at pickup")
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  body      String
+  createdAt DateTime @default(now())
+}
