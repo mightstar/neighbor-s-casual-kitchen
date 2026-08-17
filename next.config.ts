@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Standalone is for Docker. Vercel traces its own output and fails if this is set.
+  ...(process.env.VERCEL ? {} : { output: "standalone" as const }),
   images: {
     remotePatterns: [
       {
