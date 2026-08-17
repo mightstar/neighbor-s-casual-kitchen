@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/logo";
+import { restaurant } from "@/lib/restaurant";
 import { useAppSelector } from "@/store/hooks";
 import { selectCartCount } from "@/store/cartSlice";
 
@@ -16,6 +17,10 @@ const links = [
 
 function openChat() {
   window.dispatchEvent(new Event("nck-open-chat"));
+}
+
+function openVoice() {
+  window.dispatchEvent(new Event("nck-open-voice"));
 }
 
 export function Header() {
@@ -44,6 +49,19 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <a
+            href={`tel:${restaurant.phoneTel}`}
+            className="text-sm text-ink/80 hover:text-ink sm:hidden"
+          >
+            Call
+          </a>
+          <button
+            type="button"
+            onClick={openVoice}
+            className="hidden text-sm text-ink/80 hover:text-ink sm:inline"
+          >
+            Call
+          </button>
           <button
             type="button"
             onClick={openChat}
@@ -92,6 +110,18 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <a href={`tel:${restaurant.phoneTel}`} onClick={() => setOpen(false)}>
+              Call {restaurant.phone}
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openVoice();
+              }}
+            >
+              Talk in the browser
+            </button>
             <button
               type="button"
               onClick={() => {

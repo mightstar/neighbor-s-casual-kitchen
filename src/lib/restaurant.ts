@@ -8,8 +8,9 @@ export const restaurant = {
     "A family-friendly New American cafe in Lake Highlands serving homemade casual food — sandwiches with hand-cut fries, soups, salads, weekend brunch, and a full bar.",
   longDescription:
     "Neighbor's Casual Kitchen is a locally owned cafe in the Lake Highlands neighborhood of Dallas. Think of us as your friends next door who can't wait to have you over for a home-cooked meal. We serve lunch and dinner daily, breakfast energy on the weekends, and a full bar with patio seating. The room is casual and family-friendly, with local and children's art on the walls and a small-cafe feel that is very much part of the neighborhood.",
-  phone: "(214) 349-2233",
-  phoneTel: "+12143492233",
+  phone: "(469) 314-8252",
+  phoneTel: "+14693148252",
+  listingPhone: "(214) 349-2233",
   email: "hello@neighborscasualkitchen.com",
   website: "https://neighborscasualkitchen.com",
   address: {

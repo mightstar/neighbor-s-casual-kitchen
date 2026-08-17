@@ -33,7 +33,14 @@ export default async function DishPage({
   return (
     <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2">
       <div className="relative min-h-[360px] overflow-hidden rounded-[32px]">
-        <Image src={item.image} alt={item.name} fill className="object-cover" priority />
+        <Image
+          src={item.image}
+          alt={item.name}
+          fill
+          className="object-cover"
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
       </div>
       <div className="flex flex-col justify-center">
         <Link href="/menu" className="text-sm text-copper">

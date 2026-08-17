@@ -58,7 +58,7 @@ export function CartView() {
       {lines.map((line) => (
         <div key={line.id} className="flex gap-4 rounded-[24px] bg-white p-3">
           <div className="relative h-20 w-20 overflow-hidden rounded-2xl">
-            <Image src={line.image} alt={line.name} fill className="object-cover" />
+            <Image src={line.image} alt={line.name} fill className="object-cover" sizes="80px" />
           </div>
           <div className="flex flex-1 items-center justify-between gap-3">
             <div>

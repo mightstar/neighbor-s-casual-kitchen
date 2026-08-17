@@ -41,7 +41,8 @@ export default function VisitPage() {
               <Row label="Address" value={`${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} ${restaurant.address.zip}`} />
               <Row label="Neighborhood" value={`${restaurant.address.neighborhood} · ${restaurant.address.region}`} />
               <Row label="Cross street" value={restaurant.address.crossStreet} />
-              <Row label="Phone" value={restaurant.phone} href={`tel:${restaurant.phoneTel}`} />
+              <Row label="Host line" value={restaurant.phone} href={`tel:${restaurant.phoneTel}`} />
+              <Row label="Listing" value={restaurant.listingPhone} />
               <Row label="Price" value={restaurant.priceRange} />
               <Row label="Cuisine" value={restaurant.cuisines.join(", ")} />
               <Row label="Parking" value={restaurant.parking} />

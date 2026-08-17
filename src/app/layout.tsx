@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree, Fraunces } from "next/font/google";
 import { ChatWidget } from "@/components/chat-widget";
+import { VoiceWidget } from "@/components/voice-widget";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
@@ -41,12 +42,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${figtree.variable} h-full`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${fraunces.variable} ${figtree.variable} h-full`}
+    >
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink antialiased">
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <VoiceWidget />
           <ChatWidget />
         </Providers>
       </body>

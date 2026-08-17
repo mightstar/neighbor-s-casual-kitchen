@@ -21,8 +21,14 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: postgresql://neighbors:neighbors@db:5432/neighbors
+      DATABASE_URL_UNPOOLED: postgresql://neighbors:neighbors@db:5432/neighbors
       JWT_SECRET: local-docker-jwt-secret
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      NEXT_PUBLIC_VAPI_PUBLIC_KEY: ${NEXT_PUBLIC_VAPI_PUBLIC_KEY:-}
+      NEXT_PUBLIC_VAPI_ASSISTANT_ID: ${NEXT_PUBLIC_VAPI_ASSISTANT_ID:-}
+      VAPI_PRIVATE_KEY: ${VAPI_PRIVATE_KEY:-}
     depends_on:
       db:
         condition: service_healthy

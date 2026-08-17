@@ -100,6 +100,8 @@ export function restaurantBrief() {
     neighborhood: restaurant.address.neighborhood,
     crossStreet: restaurant.address.crossStreet,
     phone: restaurant.phone,
+    hostLine: restaurant.phone,
+    listingPhone: restaurant.listingPhone,
     hours: restaurant.hours,
     brunch: restaurant.brunch,
     priceRange: restaurant.priceRange,

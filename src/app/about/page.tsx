@@ -19,7 +19,13 @@ export default function AboutPage() {
       <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">{restaurant.longDescription}</p>
 
       <div className="relative mt-10 h-80 overflow-hidden rounded-[32px]">
-        <Image src={art} alt="A plated neighborhood dinner" fill className="object-cover" />
+        <Image
+          src={art}
+          alt="A plated neighborhood dinner"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
       </div>
 
       <div className="mt-12 grid gap-8 md:grid-cols-2">

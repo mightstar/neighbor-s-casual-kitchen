@@ -126,7 +126,13 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="relative h-80 overflow-hidden rounded-[32px]">
-            <Image src={patio} alt="Shrimp and grits" fill className="object-cover" />
+            <Image
+              src={patio}
+              alt="Shrimp and grits"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </div>
         </div>
       </section>

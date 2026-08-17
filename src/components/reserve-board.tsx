@@ -9,38 +9,44 @@ import { useAppSelector } from "@/store/hooks";
 
 const durations = [60, 90, 120];
 
-export function ReserveBoard() {
+export function ReserveBoard({
+  initial,
+  fromCall = false,
+}: {
+  initial?: {
+    date?: string;
+    start?: string;
+    duration?: number;
+    partySize?: number;
+    notes?: string;
+  };
+  fromCall?: boolean;
+}) {
   const user = useAppSelector((state) => state.auth.user);
   const authReady = useAppSelector((state) => state.auth.status === "ready");
-  const [date, setDate] = useState(todayISO());
-  const [start, setStart] = useState("18:00");
-  const [duration, setDuration] = useState(90);
-  const [partySize, setPartySize] = useState(2);
+  const [date, setDate] = useState(initial?.date || todayISO());
+  const [start, setStart] = useState(initial?.start || "18:00");
+  const [duration, setDuration] = useState(initial?.duration || 90);
+  const [partySize, setPartySize] = useState(initial?.partySize || 2);
   const [bookedIds, setBookedIds] = useState<string[]>([]);
   const [selected, setSelected] = useState<FloorTable | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState(initial?.notes || "");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [busy, setBusy] = useState(false);
 
   const slots = useMemo(() => reservationSlots(date, duration), [date, duration]);
-
-  useEffect(() => {
-    if (user && !name) setName(user.name);
-  }, [user, name]);
-
-  useEffect(() => {
-    if (slots.length && !slots.includes(start)) {
-      setStart(slots[Math.floor(slots.length / 2)] ?? slots[0]);
-    }
-  }, [slots, start]);
+  const startValue = slots.includes(start)
+    ? start
+    : (slots[Math.floor(slots.length / 2)] ?? start);
+  const guestName = name || user?.name || "";
 
   useEffect(() => {
     let ignore = false;
     fetch(
-      `/api/reservations/availability?date=${date}&start=${start}&duration=${duration}`,
+      `/api/reservations/availability?date=${date}&start=${startValue}&duration=${duration}`,
     )
       .then((res) => res.json())
       .then((data: { bookedTableIds?: string[] }) => {
@@ -52,7 +58,7 @@ export function ReserveBoard() {
     return () => {
       ignore = true;
     };
-  }, [date, start, duration, success]);
+  }, [date, startValue, duration, success]);
 
   async function book() {
     setError("");
@@ -68,10 +74,10 @@ export function ReserveBoard() {
       body: JSON.stringify({
         tableId: selected.id,
         date,
-        start,
+        start: startValue,
         durationMinutes: duration,
         partySize,
-        name,
+        name: guestName,
         phone,
         notes,
       }),
@@ -82,7 +88,7 @@ export function ReserveBoard() {
       setError(data.error ?? "Could not book that table.");
       return;
     }
-    setSuccess(`Table ${selected.label} is reserved for ${formatTimeLabel(start)}.`);
+    setSuccess(`Table ${selected.label} is reserved for ${formatTimeLabel(startValue)}.`);
     setSelected(null);
     setNotes("");
   }
@@ -104,7 +110,7 @@ export function ReserveBoard() {
           <label className="text-xs uppercase tracking-[0.16em] text-muted">
             Time
             <select
-              value={start}
+              value={startValue}
               onChange={(event) => setStart(event.target.value)}
               className="mt-1 w-full rounded-xl border border-line bg-paper px-3 py-2 text-sm text-ink"
             >
@@ -167,6 +173,11 @@ export function ReserveBoard() {
       <aside className="rounded-3xl border border-line bg-white/80 p-5">
         <p className="text-xs uppercase tracking-[0.2em] text-copper">Hold a table</p>
         <h2 className="display mt-2 text-3xl">Book the room</h2>
+        {fromCall && (
+          <p className="mt-3 rounded-2xl bg-cream px-4 py-3 text-sm">
+            The host sent you here to finish the reservation. Pick a table and confirm.
+          </p>
+        )}
         <p className="mt-2 text-sm leading-6 text-muted">
           Click a table on the canvas. Once it is booked, it stays disabled for that period so
           nobody else can take it.
@@ -181,7 +192,7 @@ export function ReserveBoard() {
         )}
 
         <div className="mt-4 space-y-3">
-          <Field label="Name" value={name} onChange={setName} />
+          <Field label="Name" value={guestName} onChange={setName} />
           <Field label="Phone" value={phone} onChange={setPhone} placeholder="214-555-0100" />
           <label className="block text-xs uppercase tracking-[0.16em] text-muted">
             Notes
