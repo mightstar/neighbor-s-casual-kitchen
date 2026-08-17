@@ -179,6 +179,7 @@ export function VoiceWidget() {
           messages: [{ role: "system", content: voiceSystemPrompt() }],
           tools,
         },
+        // Vapi's published types mark this as one string; the API takes the list.
         clientMessages: [
           "transcript",
           "tool-calls",
@@ -187,7 +188,7 @@ export function VoiceWidget() {
           "speech-update",
           "status-update",
         ],
-      });
+      } as unknown as Parameters<import("@vapi-ai/web").default["start"]>[1]);
     } catch (event) {
       setError(event instanceof Error ? event.message : "Could not start the call.");
     }

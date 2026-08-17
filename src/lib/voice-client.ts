@@ -1,16 +1,29 @@
 import { chicagoClock, formatTimeLabel, isOpenNow, todayISO } from "@/lib/hours";
 import { restaurant } from "@/lib/restaurant";
 
-export const voiceTools = [
+type VoiceFunctionTool = {
+  type: "function";
+  function: {
+    name: string;
+    description: string;
+    parameters: {
+      type: "object";
+      properties: Record<string, { type: "string" | "number"; description?: string }>;
+      required?: string[];
+    };
+  };
+};
+
+export const voiceTools: VoiceFunctionTool[] = [
   {
     type: "function" as const,
     function: {
       name: "search_menu",
       description: "Search the menu for dishes, prices, and brunch or dinner items.",
       parameters: {
-        type: "object",
+        type: "object" as const,
         properties: {
-          query: { type: "string", description: "Dish, ingredient, or category" },
+          query: { type: "string" as const, description: "Dish, ingredient, or category" },
         },
         required: ["query"],
       },
@@ -23,12 +36,12 @@ export const voiceTools = [
       description:
         "List open tables for a Dallas date and time. Use this when the guest asks what is free. Do not book.",
       parameters: {
-        type: "object",
+        type: "object" as const,
         properties: {
-          date: { type: "string", description: "YYYY-MM-DD in America/Chicago" },
-          start: { type: "string", description: "24-hour HH:mm start time" },
-          durationMinutes: { type: "number", description: "60, 90, or 120" },
-          partySize: { type: "number", description: "Guests, 1-6" },
+          date: { type: "string" as const, description: "YYYY-MM-DD in America/Chicago" },
+          start: { type: "string" as const, description: "24-hour HH:mm start time" },
+          durationMinutes: { type: "number" as const, description: "60, 90, or 120" },
+          partySize: { type: "number" as const, description: "Guests, 1-6" },
         },
         required: ["date", "start"],
       },
@@ -41,13 +54,13 @@ export const voiceTools = [
       description:
         "Required whenever the guest wants to reserve, hold, or book a table. Never book on the call. Escalate to the website reservation page.",
       parameters: {
-        type: "object",
+        type: "object" as const,
         properties: {
-          date: { type: "string", description: "YYYY-MM-DD if known" },
-          start: { type: "string", description: "HH:mm if known" },
-          durationMinutes: { type: "number" },
-          partySize: { type: "number" },
-          notes: { type: "string", description: "Patio, booth, or other preference" },
+          date: { type: "string" as const, description: "YYYY-MM-DD if known" },
+          start: { type: "string" as const, description: "HH:mm if known" },
+          durationMinutes: { type: "number" as const },
+          partySize: { type: "number" as const },
+          notes: { type: "string" as const, description: "Patio, booth, or other preference" },
         },
       },
     },
